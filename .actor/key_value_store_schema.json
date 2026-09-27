@@ -1,0 +1,10 @@
+{
+  "actorKeyValueStoreSchemaVersion": 1,
+  "title": "Stock Earnings Intelligence Key-Value Store Schema",
+  "collections": {
+    "summaries": {
+      "title": "Run Output Summary",
+      "keyPrefix": "OUTPUT"
+    }
+  }
+}
