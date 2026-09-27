@@ -1,0 +1,50 @@
+{
+  "title": "Earnings Intelligence Actor Input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "symbols": {
+      "title": "US Stock Tickers (Mag 7 by default)",
+      "type": "array",
+      "description": "List of stock symbols to analyze. Magnificent Seven (NVDA, AAPL, MSFT, AMZN, GOOGL, META, TSLA) are pre-configured by default. You can add or replace with any US stock ticker (e.g. AMD, PLTR, NFLX, COIN, SMCI, BABA).",
+      "editor": "json",
+      "default": [
+        "NVDA",
+        "AAPL",
+        "MSFT",
+        "AMZN",
+        "GOOGL",
+        "META",
+        "TSLA"
+      ],
+      "prefill": [
+        "NVDA",
+        "AAPL",
+        "MSFT",
+        "AMZN",
+        "GOOGL",
+        "META",
+        "TSLA"
+      ]
+    },
+    "includePeerComparison": {
+      "title": "Include Magnificent 7 Valuation Benchmark",
+      "type": "boolean",
+      "description": "Include side-by-side valuation multiples (P/E, Forward P/E, PEG, EV/EBITDA) against the Mag 7 peer group.",
+      "editor": "checkbox",
+      "default": true
+    },
+    "quartersBack": {
+      "title": "Historical Earnings Quarters to Analyze",
+      "type": "integer",
+      "description": "Number of previous earnings quarters to evaluate for gap-fill probability, beat rates, and 5-day drift.",
+      "editor": "number",
+      "default": 8,
+      "minimum": 4,
+      "maximum": 20
+    }
+  },
+  "required": [
+    "symbols"
+  ]
+}
