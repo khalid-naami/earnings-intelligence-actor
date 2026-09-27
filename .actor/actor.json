@@ -1,0 +1,17 @@
+{
+  "actorSpecification": 1,
+  "name": "stock-earnings-intelligence-actor",
+  "title": "Stock Earnings Intelligence & Options Volatility Analytics",
+  "description": "Calculates options expected moves (ATM Straddle), historical gap-fill probabilities, post-earnings price drift, consensus estimates, and AI market biases across US stocks (Mag 7 pre-configured by default).",
+  "version": "1.0",
+  "meta": {
+    "templateId": "python-empty"
+  },
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "storages": {
+    "dataset": "./dataset_schema.json",
+    "keyValueStore": "./key_value_store_schema.json"
+  },
+  "output": "./output_schema.json"
+}
