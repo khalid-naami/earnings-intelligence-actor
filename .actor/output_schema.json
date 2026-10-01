@@ -1,18 +1,18 @@
 {
-  "actorOutputSchemaVersion": 1,
-  "title": "Stock Earnings Intelligence Output Schema",
-  "properties": {
-    "results": {
-      "type": "string",
-      "title": "Earnings Intelligence Dataset Results",
-      "description": "Comprehensive earnings intelligence records, options implied moves, and gap-fill analytics",
-      "template": "{{links.apiDefaultDatasetUrl}}/items"
-    },
-    "summary": {
-      "type": "string",
-      "title": "AI Executive Market Summary",
-      "description": "Pre-calculated executive market biases, days until earnings, and implied volatility moves",
-      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+    "actorOutputSchemaVersion": 1,
+    "title": "Stock Earnings Intelligence Output Schema",
+    "properties": {
+        "results": {
+            "type": "string",
+            "title": "Dataset Items",
+            "description": "Dataset items and records produced by the Actor",
+            "template": "{{links.apiDefaultDatasetUrl}}/items"
+        },
+        "overview": {
+            "type": "string",
+            "title": "Summary Payload",
+            "description": "Summary report stored in Key-Value store",
+            "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+        }
     }
-  }
 }
