@@ -7,7 +7,7 @@ Fully mirrors all 4 Tabs and UI Components of Dashboard Options:
 - Tab 3: Key Statistics & Valuation (Valuation Measures, Financial Highlights, Mag 7 Peer Matrix)
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import pandas as pd
 import numpy as np
 
@@ -131,7 +131,7 @@ def compute_historical_gap_fill_analytics(ticker_obj, earnings_dates_df: pd.Data
         return [], {}, {}, []
 
     results = []
-    today = datetime.now().date()
+    today = datetime.now(timezone.utc).date()
     past_dates = [d for d in earnings_dates_df.index if d.date() < today]
     dates = past_dates[:quarters_back]
     pathways = {}
@@ -247,7 +247,7 @@ def compute_historical_gap_fill_analytics(ticker_obj, earnings_dates_df: pd.Data
     return results, stats, pathways, eps_surprise_history
 
 
-def build_earnings_intelligence_record(raw_data: dict, peers_data: list[dict] = None) -> dict | None:
+def build_earnings_intelligence_record(raw_data: dict, peers_data: list[dict] = None, quarters_back: int = 8) -> dict | None:
     """Build complete JSON record matching all 4 tabs and summary cards of Dashboard Options."""
     if not raw_data:
         return None
@@ -278,14 +278,14 @@ def build_earnings_intelligence_record(raw_data: dict, peers_data: list[dict] = 
             next_earnings_date = first_dt.strftime('%Y-%m-%d')
             try:
                 target_d = first_dt.date() if hasattr(first_dt, 'date') else first_dt
-                days_until_earnings = (target_d - datetime.now().date()).days
+                days_until_earnings = (target_d - datetime.now(timezone.utc).date()).days
             except Exception:
                 pass
         elif isinstance(first_dt, str):
             next_earnings_date = first_dt[:10]
             try:
                 target_d = datetime.strptime(next_earnings_date, '%Y-%m-%d').date()
-                days_until_earnings = (target_d - datetime.now().date()).days
+                days_until_earnings = (target_d - datetime.now(timezone.utc).date()).days
             except Exception:
                 pass
 
@@ -298,7 +298,7 @@ def build_earnings_intelligence_record(raw_data: dict, peers_data: list[dict] = 
 
     # TAB 1: Gap-Fill & Price Drift Analytics
     historical_ledger, drift_stats, pathways, eps_surprise_history = compute_historical_gap_fill_analytics(
-        ticker_obj, raw_data["earnings_dates"], quarters_back=8
+        ticker_obj, raw_data["earnings_dates"], quarters_back=quarters_back
     )
 
     # Quarterly Revenue & Net Income (Last 4 quarters)
@@ -441,7 +441,7 @@ def build_earnings_intelligence_record(raw_data: dict, peers_data: list[dict] = 
             f"{symbol} ({info.get('shortName', symbol)}) next earnings release is scheduled for {next_earnings_date} "
             f"({f'{days_until_earnings} days away' if days_until_earnings is not None else 'TBD'}). "
             f"Options market prices an expected move of {implied_move_str}. "
-            f"Historically over the past 8 quarters, {symbol} beats earnings estimates {beat_rate_str} of the time, "
+            f"Historically over the past {quarters_back} quarters, {symbol} beats earnings estimates {beat_rate_str} of the time, "
             f"fills its post-earnings opening gap {gap_fill_str} of the time, and exhibits a {drift_stats.get('postEarningsDriftBias', 'neutral')} "
             f"with an average 5-day drift of {drift_stats.get('average5DDriftPct', 0.0)}%."
         )
