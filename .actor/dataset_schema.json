@@ -1,65 +1,73 @@
 {
-  "actorSpecification": 1,
-  "fields": {
-    "type": "object",
-    "properties": {
-      "symbol": {
-        "type": "string",
-        "description": "Stock ticker symbol"
-      },
-      "companyName": {
-        "type": "string",
-        "description": "Full company name"
-      },
-      "sector": {
-        "type": "string",
-        "description": "Industry sector"
-      },
-      "industry": {
-        "type": "string",
-        "description": "Industry classification"
-      },
-      "headerOverview": {
+    "actorSpecification": 1,
+    "fields": {
         "type": "object",
-        "description": "4 Upper Cards: Current Price, Next Earnings Date, Implied Expected Move, and Analyst Consensus"
-      },
-      "aiInsights": {
-        "type": "object",
-        "description": "Executive market bias, options expected move %, and historical gap-fill probability"
-      },
-      "tab0_optionsAndVolatility": {
-        "type": "object",
-        "description": "Tab 0: ATM Straddle pricing, Call/Put asks, IV Skew, Term Structure, and Modeled IV Crush Pathway"
-      },
-      "tab1_gapFillAndPriceDrift": {
-        "type": "object",
-        "description": "Tab 1: Gap-Fill probability, 5-day drift, Price pathways (-1D to +5D), Historical ledger, EPS Surprise, and Quarterly Financials"
-      },
-      "tab2_analystTargetsAndEstimates": {
-        "type": "object",
-        "description": "Tab 2: Price target summary (Mean, Median, High, Low), Recommendation history, Consensus EPS & Revenue estimates, and Ratings Upgrades"
-      },
-      "tab3_keyStatisticsAndValuation": {
-        "type": "object",
-        "description": "Tab 3: Valuation measures (P/E, Forward P/E, PEG, P/S, EV/EBITDA), Financial highlights, and Mag 7 Peer Matrix"
-      }
+        "properties": {
+            "symbol": {
+                "type": "string",
+                "description": "Stock ticker symbol"
+            },
+            "companyName": {
+                "type": "string",
+                "description": "Full company name"
+            },
+            "sector": {
+                "type": "string",
+                "description": "Industry sector"
+            },
+            "industry": {
+                "type": "string",
+                "description": "Industry classification"
+            },
+            "headerOverview": {
+                "type": "object",
+                "description": "4 Upper Cards: Current Price, Next Earnings Date, Implied Expected Move, and Analyst Consensus",
+                "additionalProperties": true
+            },
+            "aiInsights": {
+                "type": "object",
+                "description": "Executive market bias, options expected move %, and historical gap-fill probability",
+                "additionalProperties": true
+            },
+            "tab0_optionsAndVolatility": {
+                "type": "object",
+                "description": "Tab 0: ATM Straddle pricing, Call/Put asks, IV Skew, Term Structure, and Modeled IV Crush Pathway",
+                "additionalProperties": true
+            },
+            "tab1_gapFillAndPriceDrift": {
+                "type": "object",
+                "description": "Tab 1: Gap-Fill probability, 5-day drift, Price pathways (-1D to +5D), Historical ledger, EPS Surprise, and Quarterly Financials",
+                "additionalProperties": true
+            },
+            "tab2_analystTargetsAndEstimates": {
+                "type": "object",
+                "description": "Tab 2: Price target summary (Mean, Median, High, Low), Recommendation history, Consensus EPS & Revenue estimates, and Ratings Upgrades",
+                "additionalProperties": true
+            },
+            "tab3_keyStatisticsAndValuation": {
+                "type": "object",
+                "description": "Tab 3: Valuation measures (P/E, Forward P/E, PEG, P/S, EV/EBITDA), Financial highlights, and Mag 7 Peer Matrix",
+                "additionalProperties": true
+            }
+        },
+        "required": [],
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": true
     },
-    "required": ["symbol", "companyName", "headerOverview", "aiInsights"]
-  },
-  "views": {
-    "overview": {
-      "title": "Earnings Intelligence Overview Table",
-      "transformation": {
-        "fields": [
-          "symbol",
-          "companyName",
-          "headerOverview",
-          "aiInsights"
-        ]
-      },
-      "display": {
-        "component": "table"
-      }
+    "views": {
+        "overview": {
+            "title": "Earnings Intelligence Overview Table",
+            "transformation": {
+                "fields": [
+                    "symbol",
+                    "companyName",
+                    "headerOverview",
+                    "aiInsights"
+                ]
+            },
+            "display": {
+                "component": "table"
+            }
+        }
     }
-  }
 }
