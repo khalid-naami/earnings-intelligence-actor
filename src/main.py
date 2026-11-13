@@ -30,8 +30,9 @@ async def main():
             symbols = MAG_7_TICKERS
 
         include_peers = actor_input.get("includePeerComparison", True)
+        quarters_back = int(actor_input.get("quartersBack", 8) or 8)
 
-        Actor.log.info(f"Starting Earnings Intelligence analysis for {len(symbols)} symbol(s)...")
+        Actor.log.info(f"Starting Earnings Intelligence analysis for {len(symbols)} symbol(s) (quartersBack={quarters_back})...")
         Actor.log.info(f"Target Symbols: {symbols}")
 
         # Fetch Mag 7 peer benchmark if requested
@@ -54,7 +55,11 @@ async def main():
                     Actor.log.warning(f"Could not fetch raw data for ticker '{symbol}'. Skipping.")
                     continue
 
-                record = build_earnings_intelligence_record(raw_data, peers_data=mag_7_peers)
+                record = build_earnings_intelligence_record(
+                    raw_data,
+                    peers_data=mag_7_peers,
+                    quarters_back=quarters_back,
+                )
                 if not record:
                     Actor.log.warning(f"Insufficient calculation data for '{symbol}'. Skipping.")
                     continue
@@ -93,7 +98,21 @@ async def main():
             await Actor.set_value("OUTPUT", output_summary)
             Actor.log.info(f"Saved summary report to Key-Value store 'OUTPUT'. Total items: {len(dataset_items)}")
         else:
-            Actor.log.warning("No earnings intelligence records were generated.")
+            msg = "No earnings intelligence records were generated."
+            Actor.log.warning(msg)
+            await Actor.set_value(
+                "OUTPUT",
+                {
+                    "status": "NO_DATA",
+                    "totalStocksAnalyzed": 0,
+                    "analyzedTickers": [],
+                    "mag7BenchmarkIncluded": False,
+                    "earningsSummaries": [],
+                    "aiContextReady": False,
+                    "message": msg,
+                },
+            )
+            await Actor.fail(status_message=msg)
 
 
 if __name__ == "__main__":
